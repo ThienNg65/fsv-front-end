@@ -1,10 +1,29 @@
 <template>
-  <h1>Product Page</h1>
+  <div id="page-wrap">
+    <div class="grid-wrap">
+      <div v-for="product in products" class="product-item" v-bind:key="product.id">
+        <img v-bind:src="product.imageUrl" alt="" />
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="prodcut-price">${{ product.price }}</p>
+        <router-link v-bind:to="'/products/' + product.id">
+          <button type="button">View Details</button>
+        </router-link>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import { RouterLink } from 'vue-router'
+import { products } from '../fake-data'
 export default {
-  name: 'ProductsPage'
+  name: 'ProductsPage',
+  data() {
+    return {
+      products
+    }
+  },
+  components: { RouterLink }
 }
 </script>
 
