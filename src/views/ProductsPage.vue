@@ -6,7 +6,7 @@
 
 <script>
 import { products } from '../fake-data'
-import ProductsGrid from '../components/ProductsGrid.vue'
+import ProductsGrid from '../components/ProductsGrid/ProductsGrid.vue'
 export default {
   name: 'ProductsPage',
   data() {
