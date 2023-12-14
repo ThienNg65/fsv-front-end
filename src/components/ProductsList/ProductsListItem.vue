@@ -17,6 +17,13 @@ export default {
 </script>
 
 <style scoped>
+.product-container {
+  align-content: 'center';
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  padding: 16px;
+  width: 100%;
+}
 .product-image {
   flex: 1;
   height: 100px;
