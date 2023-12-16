@@ -1,7 +1,7 @@
 <template>
   <div id="page-wrap">
     <h1>Shopping Cart</h1>
-    <ProductsList :products="cartItems" />
+    <ProductsList :products="cartItems" v-on:remove-from-cart="removeFromCart($event)" />
     <h3 id="total-price">Total: ${{ totalPrice }}</h3>
     <button id="checkout-button">Proceed to Checkout</button>
   </div>
@@ -21,6 +21,13 @@ export default {
   computed: {
     totalPrice() {
       return this.cartItems.reduce((sum, item) => sum + Number(item.price), 0)
+    }
+  },
+
+  methods: {
+    async removeFromCart(productId) {
+      const result = await axios.delete(`/api/users/12345/cart/${productId}`)
+      this.cartItems = result.data
     }
   },
   components: { ProductsList },
