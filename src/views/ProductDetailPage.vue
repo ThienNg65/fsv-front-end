@@ -6,11 +6,15 @@
         <h1>{{ product.name }}</h1>
         <h3 id="price">${{ product.price }}</h3>
         <p>Average rating: {{ product.averageRating }}</p>
-        <button v-if="!showSuccessMessage" v-on:click="addToCart" id="add-to-cart">
+
+        <button v-if="!itemIsInCart && !showSuccessMessage" v-on:click="addToCart" id="add-to-cart">
           Add to Cart
         </button>
-        <button v-if="showSuccessMessage" id="add-to-cart" class="green-button">
+        <button v-if="!itemIsInCart && showSuccessMessage" id="add-to-cart" class="green-button">
           Successfully Added Item to cart!
+        </button>
+        <button v-if="itemIsInCart" id="add-to-cart" class="grey-button">
+          Item is already in Cart!
         </button>
 
         <h4>Description</h4>
@@ -32,7 +36,13 @@ export default {
   data() {
     return {
       product: {},
-      showSuccessMessage: false
+      showSuccessMessage: false,
+      cartItems: []
+    }
+  },
+  computed: {
+    itemIsInCart() {
+      return this.cartItems.some((item) => item.id === this.product.id)
     }
   },
 
@@ -49,9 +59,12 @@ export default {
   },
 
   async created() {
-    const result = await axios.get(`/api/products/${this.$route.params.id}`)
-    const product = result.data
+    const { data: product } = await axios.get(`/api/products/${this.$route.params.id}`)
+
     this.product = product
+
+    const { data: cartItems } = await axios.get('/api/users/12345/cart')
+    this.cartItems = cartItems
   }
 }
 </script>
